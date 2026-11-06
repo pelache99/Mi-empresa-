@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#243447">
+<title>Marmolista · Presupuestos</title>
+<style>
+:root{--ink:#243447;--muted:#667085;--line:#dce2e8;--bg:#f4f6f8;--accent:#176b87;--white:#fff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+header{background:var(--ink);color:white;padding:22px max(16px,calc((100% - 980px)/2))}
+header h1{margin:0;font-size:23px}header p{margin:4px 0 0;color:#d5e1e8;font-size:13px}
+main{max-width:980px;margin:20px auto;padding:0 14px 48px}.panel{background:white;border:1px solid var(--line);border-radius:14px;padding:17px;margin:0 0 16px;box-shadow:0 2px 8px #172b3a0a}
+h2{font-size:18px;margin:0 0 14px}details>summary{padding:7px 0;color:var(--accent);font-size:16px}details[open]>summary{margin-bottom:12px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+label{display:block;font-size:13px;font-weight:650;color:#475467}input,select,textarea{width:100%;margin-top:5px;padding:11px;border:1px solid #cbd5df;border-radius:8px;background:#fff;color:#182230;font:inherit;min-width:0}
+button{border:0;border-radius:9px;padding:11px 15px;font:600 14px inherit;cursor:pointer;background:var(--accent);color:white}
+button.secondary{background:#e9eef2;color:var(--ink)}button.danger{background:#fff0ef;color:#a33127}button:disabled{opacity:.5}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}.muted{color:var(--muted);font-size:13px}
+.piece{border:1px solid var(--line);border-radius:8px;padding:8px 10px;margin-top:6px;break-inside:avoid}.piece-layout{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center}.piece-details{display:flex;flex-wrap:wrap;align-items:baseline;column-gap:9px;row-gap:2px;min-width:0}.piece-description{font-size:12px;font-weight:750}.piece-material{font-size:11px;font-weight:650}.piece-meta{font-size:10.5px;color:#344054}.piece-price{display:grid;gap:1px;text-align:right;white-space:nowrap;font-size:9px}.piece-price strong{font-size:12px}
+.money{font-variant-numeric:tabular-nums}.totals{display:grid;gap:7px;max-width:420px;margin-left:auto}.totalrow{display:flex;justify-content:space-between;gap:12px}.grand{font-size:21px;font-weight:800;border-top:1px solid var(--line);padding-top:10px}
+.hidden{display:none!important}.notice{background:#edf6f8;border-radius:9px;padding:11px;font-size:13px;color:#245267}
+@media(max-width:560px){.grid{grid-template-columns:1fr}main{margin-top:12px}.panel{padding:14px}.piece-layout{grid-template-columns:minmax(0,1fr) auto;gap:7px}.piece-details{column-gap:6px}.piece-price{font-size:9px}.piece-price strong{font-size:12px}}
+@page{margin:0}
+@media print{body{background:white;color:#111;font-size:11px}header,.noprint{display:none!important}main{max-width:none;margin:0;padding:14mm 14mm 18mm}.panel{box-shadow:none;border:0;padding:0;margin:0 0 12px}.piece{break-inside:avoid}.printhead{display:block!important}.printhead h1{font-size:20px}.printhead p{margin:3px 0}.piece button{display:none!important} .piece{border:1px solid #bbb} }
+
+.pdf-export{background:#fff;color:#111;width:190mm;padding:8mm;font-family:Arial,sans-serif;font-size:10px;line-height:1.3}
+.pdf-export .printhead{display:block!important;margin-bottom:9px}
+.pdf-export .printhead h1{font-size:17px;margin:0 0 3px}
+.pdf-export .printhead h2{font-size:13px;margin:5px 0}
+.pdf-export .printhead p{margin:2px 0}
+.pdf-export .piece{border:1px solid #c8c8c8;border-radius:5px;padding:5px 7px;margin-top:4px}
+.pdf-export .piece-layout{grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center}
+.pdf-export .piece-details{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 7px}
+.pdf-export .piece-description{font-size:10px}
+.pdf-export .piece-material{font-size:9px}
+.pdf-export .piece-meta{font-size:9px;color:#333}
+.pdf-export .piece-price{font-size:8px}
+.pdf-export .piece-price strong{font-size:10px}
+.pdf-export .totals{max-width:250px;margin:9px 0 0 auto;gap:4px}
+.pdf-export .grand{font-size:15px;padding-top:5px}
+.pdf-export .print-signature{margin-top:16px!important;break-inside:avoid;font-size:9px}
+.pdf-export #signaturePrint{height:65px!important;width:220px!important}
+.pdf-export #signaturePrint img{max-height:62px!important;max-width:220px!important}
+.pdf-export .actions{display:none!important}
+
+</style>
+</head>
+<body>
+<header><h1>Marmolista · Presupuestos</h1><p>Calculadora de piezas y presupuesto para tu marmolería</p></header>
+<main>
+<section class="panel noprint">
+<h2>Datos de empresa y cliente</h2>
+<div class="grid">
+<label>Nombre de la empresa<input id="empresa" placeholder="Nombre de tu marmolería"></label>
+<label>Teléfono / datos de contacto<input id="contacto" placeholder="Teléfono, dirección, etc."></label>
+<label>Nombre del cliente<input id="cliente" placeholder="Nombre del cliente"></label>
+<label>Fecha<input id="fecha" type="date"></label>
+</div>
+</section>
+<section class="panel noprint">
+<h2 id="formTitle">Añadir pieza</h2>
+<div class="grid">
+<label>Descripción<input id="descripcion" placeholder="Ej. Encimera de cocina"></label>
+<label>Material<select id="material"></select></label>
+<label>Largo (cm)<input id="largo" type="number" min="0" step="0.1" placeholder="200"></label>
+<label>Ancho (cm)<input id="ancho" type="number" min="0" step="0.1" placeholder="60"></label>
+<label>Unidades<input id="unidades" type="number" min="1" step="1" value="1"></label>
+<label>Grosor<select id="grosor"><option value="2">2 cm</option><option value="3">3 cm (+50 %)</option></select></label>
+<label>Acabado<select id="acabado"><option value="normal">Canto normal</option><option value="redondo">Canto redondo (+12 €/metro lineal)</option><option value="envejecido">Envejecido (+6 %)</option><option value="redondo-envejecido">Canto redondo + envejecido</option></select></label>
+</div>
+<div class="actions"><button id="addBtn" onclick="addPiece()">Añadir pieza</button><button class="secondary" onclick="clearForm()">Limpiar</button></div>
+<p class="muted">Las medidas se introducen en centímetros. Los precios por m² y los cálculos internos no aparecen en el documento del cliente.</p>
+</section>
+<section class="panel noprint">
+<details>
+<summary style="cursor:pointer;font-weight:700;list-style-position:inside">Modificar tarifas y materiales</summary>
+<p class="muted">Apartado de uso interno. Introduce aquí el precio base por m² para 2 cm. El precio de 3 cm se calcula automáticamente con un 50 % adicional. Las tarifas se guardan en este navegador.</p>
+<div id="materialsEditor"></div>
+<div class="actions"><button class="secondary" onclick="addMaterial()">Añadir material</button><button class="secondary" onclick="saveMaterials()">Guardar tarifas</button></div>
+</details>
+</section>
+<section class="panel noprint">
+<h2>Firma de aceptación del cliente</h2>
+<p class="muted noprint">Firma directamente con el dedo en la pantalla del móvil. La firma se incluirá en el presupuesto PDF.</p>
+<div style="border:1px solid #cbd5df;border-radius:10px;background:#fff;overflow:hidden">
+<canvas id="signature" aria-label="Zona para firmar" style="display:block;width:100%;height:170px;touch-action:none"></canvas>
+</div>
+<div class="actions noprint"><button class="secondary" type="button" onclick="clearSignature()">Borrar firma</button></div>
+<p id="signatureStatus" class="muted">Firma pendiente.</p>
+</section>
+<section class="panel">
+<div class="printhead hidden"><h1 id="printEmpresa"></h1><p id="printContacto"></p><h2>PRESUPUESTO</h2><p id="printMeta"></p></div>
+<div class="noprint"><h2>Piezas del presupuesto</h2><p class="muted">Añade todas las piezas. Después podrás revisar, editar o eliminar cada una antes de generar el PDF.</p></div>
+<div id="pieces"><p class="muted">Todavía no has añadido ninguna pieza.</p></div>
+<div id="totals" class="totals" style="margin-top:18px"></div>
+<div class="print-signature" style="margin-top:34px;break-inside:avoid">
+<p><b>Aceptación del presupuesto</b></p>
+<div id="signaturePrint" style="width:300px;height:105px;border-bottom:1px solid #555"></div>
+<p>Firma del cliente · Fecha: <span id="signatureDate"></span></p>
+</div>
+<div class="actions noprint"><button onclick="generatePDF()">Generar PDF</button><button class="secondary" onclick="newQuote()">Nuevo presupuesto</button></div>
+<p class="muted noprint">Al pulsar «Generar PDF», se abrirá la opción de impresión/guardado del dispositivo. En iPhone, usa Compartir → Guardar en Archivos o la opción Guardar como PDF si aparece.</p>
+</section>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+const VAT=0.21, EDGE_PER_M=12;
+const defaultMaterials=[
+{name:'Porriño',price:100},{name:'Mondariz',price:100},{name:'Perla',price:120},
+{name:'Gris Extremadura',price:100},{name:'Negro Aspe',price:125},{name:'Gris Quintana',price:105},
+{name:'Mármol blanco',price:150},{name:'Crema',price:150},{name:'Daino',price:160},
+{name:'Caliza brillo',price:85},{name:'Caliza sin brillo',price:78},{name:'Cuarzo duro',price:280}
+];
+let savedMaterials=JSON.parse(localStorage.getItem('marm_materials')||'null');
+let materials=savedMaterials || defaultMaterials.map(x=>({...x}));
+// Si el navegador conservaba la versión de prueba con tarifas vacías, cargar estas tarifas iniciales.
+// Si ya había precios personalizados, respetarlos.
+if(savedMaterials && savedMaterials.every(x=>!(Number(x.price)>0))) materials=defaultMaterials.map(x=>({...x}));
+let pieces=[],editing=-1;
+const $=id=>document.getElementById(id), euro=n=>Number(n||0).toLocaleString('es-ES',{style:'currency',currency:'EUR'});
+$('fecha').value=new Date().toISOString().slice(0,10);
+function persistMaterials(){localStorage.setItem('marm_materials',JSON.stringify(materials))}
+function fillMaterials(){ $('material').innerHTML=materials.map((m,i)=>`<option value="${i}">${esc(m.name)}</option>`).join(''); renderMaterials()}
+function renderMaterials(){ $('materialsEditor').innerHTML=materials.map((m,i)=>`<div class="grid" style="margin:8px 0"><label>Material ${i+1}<input data-name="${i}" value="${esc(m.name)}"></label><label>Precio base 2 cm (€/m²)<input data-price="${i}" type="number" min="0" step=".01" value="${Number(m.price)||0}"></label></div>`).join('')}
+function saveMaterials(){document.querySelectorAll('[data-name]').forEach(x=>materials[+x.dataset.name].name=x.value.trim()||'Material');document.querySelectorAll('[data-price]').forEach(x=>materials[+x.dataset.price].price=Math.max(0,+x.value||0));persistMaterials();fillMaterials();renderPieces();resizeSignature();alert('Tarifas guardadas en este navegador.')}
+function addMaterial(){materials.push({name:'Nuevo material',price:0});fillMaterials()}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function calc(p){let m=materials[p.materialIndex]||{price:0};let area=(p.largo*p.ancho/10000)*p.unidades;let rate=(+m.price||0)*(p.grosor==3?1.5:1);let base=area*rate;if(p.acabado.includes('envejecido'))base*=1.06;if(p.acabado.includes('redondo'))base+=((2*(p.largo+p.ancho)/100)*p.unidades)*EDGE_PER_M;return base}
+function readForm(){let p={descripcion:$('descripcion').value.trim(),materialIndex:+$('material').value,largo:+$('largo').value,ancho:+$('ancho').value,unidades:+$('unidades').value,grosor:+$('grosor').value,acabado:$('acabado').value};if(!(p.largo>0&&p.ancho>0&&p.unidades>0&&Number.isInteger(p.unidades)))throw Error('Comprueba el largo, el ancho y las unidades.');return p}
+function addPiece(){try{let p=readForm();if(editing>=0){pieces[editing]=p;editing=-1;$('addBtn').textContent='Añadir pieza';$('formTitle').textContent='Añadir pieza'}else pieces.push(p);clearForm(false);renderPieces()}catch(e){alert(e.message)}}
+function clearForm(reset=true){['descripcion','largo','ancho'].forEach(id=>$(id).value='');$('unidades').value=1;$('grosor').value='2';$('acabado').value='normal';if(reset){editing=-1;$('addBtn').textContent='Añadir pieza';$('formTitle').textContent='Añadir pieza'}}
+function editPiece(i){let p=pieces[i];$('descripcion').value=p.descripcion;$('material').value=p.materialIndex;$('largo').value=p.largo;$('ancho').value=p.ancho;$('unidades').value=p.unidades;$('grosor').value=p.grosor;$('acabado').value=p.acabado;editing=i;$('addBtn').textContent='Guardar cambios';$('formTitle').textContent='Editar pieza';window.scrollTo({top:0,behavior:'smooth'})}
+function removePiece(i){if(confirm('¿Eliminar esta pieza?')){pieces.splice(i,1);renderPieces()}}
+function renderPieces(){let root=$('pieces');if(!pieces.length){root.innerHTML='<p class="muted">Todavía no has añadido ninguna pieza.</p>';$('totals').innerHTML='';return}
+root.innerHTML=pieces.map((p,i)=>{let m=materials[p.materialIndex]||{name:'Material'};let b=calc(p);return `<article class="piece"><div class="piece-layout"><div class="piece-details"><strong class="piece-description">${esc(p.descripcion||'Sin descripción')}</strong><span class="piece-material">${esc(m.name)}</span><span class="piece-meta">Largo ${p.largo} × ancho ${p.ancho} cm · ${p.unidades} ud. · ${p.grosor} cm · ${labelFinish(p.acabado)}</span></div><div class="piece-price"><span>Precio sin IVA</span><strong class="money">${euro(b)}</strong></div></div><div class="actions noprint"><button class="secondary" onclick="editPiece(${i})">Editar</button><button class="danger" onclick="removePiece(${i})">Eliminar</button></div></article>`}).join('');
+let base=pieces.reduce((s,p)=>s+calc(p),0),tax=base*VAT;$('totals').innerHTML=`<div class="totalrow"><span>Total sin IVA</span><b>${euro(base)}</b></div><div class="totalrow"><span>IVA (21 %)</span><b>${euro(tax)}</b></div><div class="totalrow grand"><span>TOTAL CON IVA</span><span>${euro(base+tax)}</span></div>`}
+function labelFinish(v){return ({normal:'Canto normal',redondo:'Canto redondo',envejecido:'Envejecido', 'redondo-envejecido':'Canto redondo + envejecido'})[v]||v}
+
+// Firma manuscrita: compatible con dedo o lápiz táctil.
+const sigCanvas=$('signature');
+const sigCtx=sigCanvas.getContext('2d');
+let drawing=false, hasSignature=false;
+function resizeSignature(){
+  const rect=sigCanvas.getBoundingClientRect(), ratio=window.devicePixelRatio||1;
+  const old=hasSignature?sigCanvas.toDataURL():null;
+  sigCanvas.width=Math.max(1,Math.round(rect.width*ratio));
+  sigCanvas.height=Math.max(1,Math.round(170*ratio));
+  sigCtx.setTransform(ratio,0,0,ratio,0,0);
+  sigCtx.lineWidth=2.4;sigCtx.lineCap='round';sigCtx.lineJoin='round';sigCtx.strokeStyle='#172b3a';
+  if(old){const img=new Image();img.onload=()=>sigCtx.drawImage(img,0,0,rect.width,170);img.src=old;}
+}
+function sigPoint(e){const r=sigCanvas.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top}}
+sigCanvas.addEventListener('pointerdown',e=>{e.preventDefault();drawing=true;sigCanvas.setPointerCapture(e.pointerId);const q=sigPoint(e);sigCtx.beginPath();sigCtx.moveTo(q.x,q.y);sigCtx.lineTo(q.x+.1,q.y+.1);sigCtx.stroke();hasSignature=true;$('signatureStatus').textContent='Firma añadida al presupuesto.'});
+sigCanvas.addEventListener('pointermove',e=>{if(!drawing)return;e.preventDefault();const q=sigPoint(e);sigCtx.lineTo(q.x,q.y);sigCtx.stroke()});
+['pointerup','pointercancel','lostpointercapture'].forEach(ev=>sigCanvas.addEventListener(ev,()=>drawing=false));
+function clearSignature(){sigCtx.clearRect(0,0,sigCanvas.width,sigCanvas.height);hasSignature=false;$('signatureStatus').textContent='Firma pendiente.'}
+function prepareSignatureForPrint(){
+ const box=$('signaturePrint');box.innerHTML='';
+ if(hasSignature){const img=document.createElement('img');img.src=sigCanvas.toDataURL('image/png');img.style='max-width:300px;max-height:100px;object-fit:contain';box.appendChild(img)}
+ else {box.textContent='';}
+ $('signatureDate').textContent=new Date().toLocaleDateString('es-ES');
+}
+window.addEventListener('resize',resizeSignature);
+
+async function generatePDF(){if(!pieces.length){alert('Añade al menos una pieza antes de generar el PDF.');return}
+$('printEmpresa').textContent=$('empresa').value||'Presupuesto';$('printContacto').textContent=$('contacto').value;prepareSignatureForPrint();$('printMeta').textContent=`Cliente: ${$('cliente').value||'—'} · Fecha: ${$('fecha').value||'—'}`;
+if(typeof html2pdf!=='function'){alert('No se ha podido cargar el generador de PDF. Comprueba tu conexión a Internet e inténtalo de nuevo.');return}
+const original=document.querySelector('main > section.panel:not(.noprint)');
+const clone=original.cloneNode(true);clone.classList.add('pdf-export');clone.querySelector('.printhead')?.classList.remove('hidden');clone.querySelectorAll('.noprint').forEach(el=>el.remove());clone.querySelectorAll('button').forEach(el=>el.remove());
+const safeName=($('cliente').value||'Presupuesto').trim().replace(/[^a-z0-9áéíóúñ_-]+/gi,'-');
+const options={margin:8,filename:`Presupuesto-${safeName}.pdf`,image:{type:'jpeg',quality:0.98},html2canvas:{scale:2,useCORS:true,backgroundColor:'#ffffff',scrollY:0},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},pagebreak:{mode:['css','legacy']}};
+try{await html2pdf().set(options).from(clone).save()}catch(err){alert('No se ha podido generar el PDF. Vuelve a intentarlo.');console.error(err)}}
+function newQuote(){if(!confirm('¿Empezar un presupuesto nuevo? Se borrarán las piezas actuales.'))return;pieces=[];clearForm();['empresa','contacto','cliente'].forEach(id=>$(id).value='');renderPieces()}
+fillMaterials();renderPieces();resizeSignature();
+</script>
+</body></html>
