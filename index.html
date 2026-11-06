@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#172b2a">
+<title>Marmolista | Presupuestos</title>
+<style>
+:root{--bg:#f3f5f3;--card:#fff;--ink:#1b2927;--muted:#66736f;--line:#dce4df;--green:#24594d;--green2:#e7f0ec;--danger:#a33c36;--shadow:0 8px 28px #142b2410}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,-apple-system,Segoe UI,sans-serif}
+header{background:#172b2a;color:white;padding:22px max(18px,calc((100% - 1050px)/2));display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{display:flex;align-items:center;gap:12px}.mark{width:42px;height:42px;border:1px solid #6d9286;border-radius:12px;display:grid;place-items:center;font-size:25px;color:#c9e0d6}.brand h1{font-size:19px;margin:0;letter-spacing:.06em}.brand p{margin:2px 0 0;color:#c5d5ce;font-size:12px}
+main{max-width:1050px;margin:24px auto;padding:0 16px 48px}.topline{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px}.topline h2{font-size:22px;margin:0}.pill{font-size:12px;background:var(--green2);color:var(--green);padding:6px 10px;border-radius:30px;font-weight:700}
+.layout{display:grid;grid-template-columns:1fr 1fr;gap:16px}.card{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:18px;box-shadow:var(--shadow);min-width:0}.wide{grid-column:1/-1}.card h3{font-size:16px;margin:0 0 14px}.muted{color:var(--muted);font-size:13px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.field{display:flex;flex-direction:column;gap:5px;min-width:0}.field.full{grid-column:1/-1}label{font-size:12px;font-weight:700;color:var(--muted)}input,select,textarea{width:100%;min-width:0;border:1px solid var(--line);border-radius:9px;padding:10px 11px;background:#fff;color:var(--ink);font:inherit}input:focus,select:focus,textarea:focus{outline:2px solid #a5c7b8;border-color:var(--green)}button{border:0;border-radius:9px;padding:10px 14px;font:700 13px system-ui;cursor:pointer}.primary{background:var(--green);color:white}.secondary{background:var(--green2);color:var(--green);border:1px solid #cbded5}.danger{background:#fff0ee;color:var(--danger)}.buttonrow{display:flex;flex-wrap:wrap;gap:8px}.tariff-head,.tariff-row{display:grid;grid-template-columns:minmax(0,1fr) 100px 100px 34px;gap:7px;align-items:center}.tariff-head{font-size:11px;color:var(--muted);font-weight:700;padding:0 0 7px}.tariff-row{padding:7px 0;border-top:1px solid var(--line)}.tariff-row input{padding:8px;font-size:13px}.tariff-row button{padding:7px}.piece{border:1px solid var(--line);border-radius:12px;padding:14px;margin:12px 0}.piecehead{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.piecehead strong{font-size:14px}.piecegrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}.pieceprice{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);margin-top:12px;padding-top:10px}.pieceprice strong{font-size:18px}.totals{display:grid;grid-template-columns:1fr 1fr 1.3fr;gap:10px}.totalbox{background:#f5f8f6;border-radius:11px;padding:13px}.totalbox span{display:block;font-size:12px;color:var(--muted)}.totalbox strong{display:block;font-size:19px;margin-top:5px}.totalbox.final{background:var(--green);color:white}.totalbox.final span{color:#d5e5dd}.totalbox.final strong{font-size:23px}.signature{background:white;border:1px dashed #9ba9a2;border-radius:10px;width:100%;height:145px;touch-action:none}.note{font-size:12px;color:var(--muted)}.hidden{display:none!important}
+@media(max-width:720px){.layout{grid-template-columns:1fr}.wide{grid-column:auto}.piecegrid{grid-template-columns:repeat(2,minmax(0,1fr))}.totals{grid-template-columns:1fr 1fr}.totalbox.final{grid-column:1/-1}.tariff-head,.tariff-row{grid-template-columns:minmax(0,1fr) 75px 75px 30px}header{padding:17px}.topline h2{font-size:19px}}
+@media print{
+ @page{size:A4;margin:13mm}body{background:#fff;font-size:11px}header{background:#fff;color:#111;padding:0 0 12px;border-bottom:2px solid #24594d}.mark{color:#24594d;border-color:#24594d}.brand p{color:#555}main{max-width:none;margin:12px 0;padding:0}.no-print,.no-print *{display:none!important}.layout{display:block}.card{box-shadow:none;border:0;border-radius:0;padding:9px 0;margin:0 0 8px}.card h3{font-size:13px;margin-bottom:7px}.grid{gap:5px 12px}input,select,textarea{border:0;padding:2px 0;background:#fff!important;color:#111!important;font-size:11px;appearance:none}.piece{break-inside:avoid;padding:8px;margin:6px 0}.piecegrid{gap:5px}.pieceprice{margin-top:5px;padding-top:5px}.pieceprice strong{font-size:13px}.totals{gap:7px}.totalbox{padding:8px;background:#f5f5f5!important;color:#111!important}.totalbox.final{background:#e8efeb!important;color:#111!important}.totalbox span{color:#444!important}.totalbox strong{font-size:14px}.totalbox.final strong{font-size:17px}.signature{height:85px;border:0;border-bottom:1px solid #777;border-radius:0}.note{color:#444}.print-only{display:block!important}
+}
+</style>
+</head>
+<body>
+<header><div class="brand"><div class="mark">◈</div><div><h1>MARMOLISTA</h1><p>Gestión de presupuestos</p></div></div><div style="font-size:12px;color:#c5d5ce">Calculadora profesional</div></header>
+<main>
+<div class="topline"><h2>Nuevo presupuesto</h2><span class="pill">3 cm = +50 %</span></div>
+<div class="layout">
+<section class="card wide">
+<h3>1. Datos de empresa</h3><div class="grid">
+<div class="field"><label>Nombre de empresa</label><input id="company" placeholder="Nombre de tu marmolería"></div>
+<div class="field"><label>CIF / NIF</label><input id="companyTax" placeholder="CIF / NIF"></div>
+<div class="field"><label>Teléfono</label><input id="companyPhone" placeholder="Teléfono"></div>
+<div class="field"><label>Correo electrónico</label><input id="companyEmail" type="email" placeholder="Correo"></div>
+<div class="field full"><label>Dirección</label><input id="companyAddress" placeholder="Dirección de empresa"></div>
+</div></section>
+<section class="card wide">
+<h3>2. Datos del cliente</h3><div class="grid">
+<div class="field"><label>Cliente / Empresa</label><input id="client" placeholder="Nombre del cliente"></div>
+<div class="field"><label>DNI / CIF</label><input id="clientTax" placeholder="DNI / CIF"></div>
+<div class="field"><label>Teléfono</label><input id="clientPhone" placeholder="Teléfono"></div>
+<div class="field"><label>Fecha</label><input id="date" type="date"></div>
+<div class="field"><label>N.º presupuesto</label><input id="quote" value="P-001"></div>
+<div class="field"><label>Dirección de la obra</label><input id="jobAddress" placeholder="Dirección de instalación"></div>
+</div></section>
+<section class="card wide no-print">
+<div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><h3 style="margin:0">3. Tarifas de materiales</h3><button class="secondary" id="toggleRates">Editar precios €/m²</button></div>
+<p class="muted">Tarifas internas. No aparecen desglosadas en el presupuesto del cliente. El precio de 3 cm se calcula automáticamente con un 50 % adicional.</p>
+<div id="rateEditor" class="hidden" style="margin-top:13px">
+<div class="tariff-head"><span>Material</span><span>2 cm €/m²</span><span>3 cm €/m²</span><span></span></div><div id="rates"></div>
+<div class="buttonrow" style="margin-top:12px"><button class="secondary" id="addMaterial">＋ Añadir material</button><button class="primary" id="saveRates">Guardar tarifas</button></div>
+</div><div id="rateStatus" class="muted">12 materiales cargados. Pulsa «Editar precios €/m²» para modificarlos.</div>
+</section>
+<section class="card wide">
+<div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><h3 style="margin:0">4. Piezas del presupuesto</h3><span class="muted" id="pieceCount">1 línea</span></div>
+<p class="muted">Agrupa en una línea las unidades que tengan las mismas medidas. Usa «Añadir pieza» para medidas o materiales diferentes.</p>
+<div id="pieces"></div><button class="secondary no-print" id="addPiece">＋ Añadir pieza</button>
+</section>
+<section class="card wide">
+<h3>5. Resumen económico</h3>
+<div class="grid" style="margin-bottom:12px"><div class="field"><label>IVA (%)</label><input id="vat" type="number" min="0" max="100" step=".1" value="21"></div><div class="field"><label>Observaciones</label><input id="notes" placeholder="Transporte, montaje, validez..."></div></div>
+<div class="totals"><div class="totalbox"><span>Total sin IVA</span><strong id="subtotal">0,00 €</strong></div><div class="totalbox"><span>IVA</span><strong id="tax">0,00 €</strong></div><div class="totalbox final"><span>Total con IVA</span><strong id="grand">0,00 €</strong></div></div>
+</section>
+<section class="card wide">
+<h3>6. Aceptación del presupuesto</h3><p class="muted">Firma del cliente en señal de aceptación.</p><canvas id="signature" class="signature" width="900" height="190"></canvas><div class="buttonrow no-print" style="margin-top:8px"><button class="secondary" id="clearSignature">Borrar firma</button></div><p class="note">Firma del cliente · Fecha: <span id="signatureDate"></span></p>
+</section>
+<section class="card wide no-print">
+<div class="buttonrow"><button class="primary" id="print">Generar presupuesto PDF / Imprimir</button><button class="secondary" id="newQuote">Nuevo presupuesto</button></div><p class="note" id="message" aria-live="polite">Para guardar el PDF, selecciona «Guardar como PDF» en el diálogo de impresión.</p>
+</section>
+</div>
+</main>
+<script>
+(()=>{
+const $=id=>document.getElementById(id);
+const defaults=[['Porriño',100],['Mondariz',100],['Perla',120],['Gris Extremadura',100],['Negro Aspe',125],['Gris Quintana',105],['Mármol blanco',150],['Crema',150],['Daino',160],['Caliza brillo',85],['Caliza sin brillo',78],['Cuarzo duro',280]];
+const euro=v=>Number(v||0).toLocaleString('es-ES',{style:'currency',currency:'EUR'});
+const num=v=>Math.max(0,Number(v)||0);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let materials=defaults.map(([name,p])=>({name,p2:p,p3:p*1.5}));
+try{const saved=JSON.parse(localStorage.getItem('marmolista_tarifas_v1')||'null');if(Array.isArray(saved)&&saved.length)materials=saved;}catch(e){}
+let pieces=[{}];
+function persistRates(){try{localStorage.setItem('marmolista_tarifas_v1',JSON.stringify(materials));}catch(e){$('rateStatus').textContent='No se pudieron guardar las tarifas en este navegador.';}}
+function renderRates(){
+ $('rates').innerHTML=materials.map((m,i)=>`<div class="tariff-row"><input aria-label="Material" data-m="${i}" data-k="name" value="${esc(m.name)}"><input aria-label="Precio 2 cm" type="number" min="0" step=".01" data-m="${i}" data-k="p2" value="${m.p2}"><input aria-label="Precio 3 cm" type="number" min="0" step=".01" data-m="${i}" data-k="p3" value="${m.p3}"><button class="danger" data-remove="${i}" aria-label="Eliminar material">×</button></div>`).join('');
+}
+function unitPrice(p){const m=materials[num(p.mat)]||materials[0];let base=num(p.w)*num(p.l)/10000*num(p.th==='3'?m.p3:m.p2);if(p.finish==='aged')base*=1.06;if(p.finish==='round')base+=num(p.ml)*12;return base}
+function piecePrice(p){return unitPrice(p)*Math.max(1,Math.floor(num(p.qty)||1))}
+function renderPieces(){
+ $('pieces').innerHTML=pieces.map((p,i)=>`<article class="piece">
+ <div class="piecehead"><strong>Pieza ${i+1}</strong><button class="danger no-print" data-delete="${i}">Eliminar</button></div>
+ <div class="piecegrid">
+ <div class="field" style="grid-column:span 2"><label>Descripción</label><input data-i="${i}" data-k="desc" value="${esc(p.desc||'')}" placeholder="Ej. Encimera cocina"></div>
+ <div class="field" style="grid-column:span 2"><label>Material</label><select data-i="${i}" data-k="mat">${materials.map((m,j)=>`<option value="${j}" ${Number(p.mat||0)===j?'selected':''}>${esc(m.name)}</option>`).join('')}</select></div>
+ <div class="field"><label>Ancho (cm)</label><input type="number" min="0" step=".1" data-i="${i}" data-k="w" value="${p.w??''}" placeholder="60"></div>
+ <div class="field"><label>Largo (cm)</label><input type="number" min="0" step=".1" data-i="${i}" data-k="l" value="${p.l??''}" placeholder="200"></div>
+ <div class="field"><label>Unidades (misma medida)</label><input type="number" min="1" step="1" data-i="${i}" data-k="qty" value="${p.qty??1}" placeholder="1"></div>
+ <div class="field"><label>Grosor</label><select data-i="${i}" data-k="th"><option value="2" ${p.th!=='3'?'selected':''}>2 cm</option><option value="3" ${p.th==='3'?'selected':''}>3 cm (+50 %)</option></select></div>
+ <div class="field"><label>Acabado</label><select data-i="${i}" data-k="finish"><option value="normal" ${!p.finish||p.finish==='normal'?'selected':''}>Canto normal</option><option value="aged" ${p.finish==='aged'?'selected':''}>Envejecido (+6 %)</option><option value="round" ${p.finish==='round'?'selected':''}>Canto redondo (+12 €/ml)</option></select></div>
+ <div class="field round-field ${p.finish==='round'?'':'hidden'}" style="grid-column:span 2"><label>Metros lineales de canto redondo</label><input type="number" min="0" step=".01" data-i="${i}" data-k="ml" value="${p.ml??''}" placeholder="Ej. 2,40"></div>
+ </div>
+ <div class="pieceprice"><span class="muted">Total de ${Math.max(1,Math.floor(num(p.qty)||1))} unidad(es) · sin IVA</span><strong id="piecePrice${i}">${euro(piecePrice(p))}</strong></div>
+ </article>`).join('');
+ calculate();
+}
+function calculate(){
+ let sub=0;pieces.forEach((p,i)=>{let v=piecePrice(p);sub+=v;let el=$('piecePrice'+i);if(el)el.textContent=euro(v)});
+ let tax=sub*num($('vat').value)/100;$('subtotal').textContent=euro(sub);$('tax').textContent=euro(tax);$('grand').textContent=euro(sub+tax);$('pieceCount').textContent=pieces.length+(pieces.length===1?' línea':' líneas');
+}
+$('toggleRates').onclick=()=>{let e=$('rateEditor');e.classList.toggle('hidden');if(!e.classList.contains('hidden')){renderRates();$('rateStatus').textContent='Edita el precio €/m² de 2 cm y 3 cm. El 3 cm parte de +50 %, pero puedes ajustarlo.'}};
+$('rates').addEventListener('input',e=>{let el=e.target;if(el.dataset.m===undefined)return;let i=+el.dataset.m,k=el.dataset.k;materials[i][k]=k==='name'?el.value:num(el.value);persistRates();calculate()});
+$('rates').addEventListener('change',e=>{let el=e.target;if(el.dataset.m===undefined)return;let i=+el.dataset.m,k=el.dataset.k;materials[i][k]=k==='name'?el.value:num(el.value);persistRates();renderPieces()});
+$('rates').addEventListener('click',e=>{let b=e.target.closest('[data-remove]');if(!b)return;materials.splice(+b.dataset.remove,1);if(!materials.length)materials=[{name:'Material nuevo',p2:0,p3:0}];pieces.forEach(p=>p.mat=0);persistRates();renderRates();renderPieces()});
+$('addMaterial').onclick=()=>{materials.push({name:'Material nuevo',p2:0,p3:0});persistRates();renderRates();renderPieces()};
+$('saveRates').onclick=()=>{persistRates();renderPieces();$('rateEditor').classList.add('hidden');$('rateStatus').textContent=materials.length+' materiales configurados. Tarifas aplicadas.'};
+$('pieces').addEventListener('input',e=>{let el=e.target;if(el.dataset.i===undefined)return;pieces[+el.dataset.i][el.dataset.k]=el.value;calculate()});
+$('pieces').addEventListener('change',e=>{let el=e.target;if(el.dataset.i===undefined)return;pieces[+el.dataset.i][el.dataset.k]=el.value;renderPieces()});
+$('pieces').addEventListener('click',e=>{let b=e.target.closest('[data-delete]');if(!b)return;pieces.splice(+b.dataset.delete,1);if(!pieces.length)pieces=[{}];renderPieces()});
+$('addPiece').onclick=()=>{pieces.push({});renderPieces()};
+$('vat').oninput=calculate;
+$('date').value=new Date().toISOString().slice(0,10);
+$('signatureDate').textContent=new Date().toLocaleDateString('es-ES');
+const canvas=$('signature'),ctx=canvas.getContext('2d');let drawing=false;
+ctx.lineWidth=3;ctx.lineCap='round';ctx.strokeStyle='#172b2a';
+function point(e){let r=canvas.getBoundingClientRect();return{x:(e.clientX-r.left)*canvas.width/r.width,y:(e.clientY-r.top)*canvas.height/r.height}}
+canvas.addEventListener('pointerdown',e=>{drawing=true;canvas.setPointerCapture(e.pointerId);let p=point(e);ctx.beginPath();ctx.moveTo(p.x,p.y)});
+canvas.addEventListener('pointermove',e=>{if(!drawing)return;let p=point(e);ctx.lineTo(p.x,p.y);ctx.stroke()});
+canvas.addEventListener('pointerup',()=>drawing=false);canvas.addEventListener('pointercancel',()=>drawing=false);
+$('clearSignature').onclick=()=>ctx.clearRect(0,0,canvas.width,canvas.height);
+$('print').onclick=()=>{if(!$('company').value.trim()||!$('client').value.trim()){ $('message').textContent='Rellena el nombre de la empresa y del cliente antes de generar el presupuesto.';return}if(pieces.some(p=>!num(p.w)||!num(p.l)||!num(p.qty))){$('message').textContent='Comprueba el ancho, el largo y las unidades de todas las piezas.';return}calculate();window.print()};
+$('newQuote').onclick=()=>{if(!confirm('¿Borrar el presupuesto actual? Se conservarán las tarifas.'))return;['client','clientTax','clientPhone','jobAddress','notes'].forEach(id=>$(id).value='');$('date').value=new Date().toISOString().slice(0,10);$('quote').value='P-001';pieces=[{}];renderPieces();$('clearSignature').click();$('message').textContent='Presupuesto nuevo preparado.'};
+renderPieces();
+})();
+</script>
+</body></html>
